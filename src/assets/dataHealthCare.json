@@ -1,0 +1,29 @@
+[
+  {
+    "title": "42 new duplicate keys detected from customer data",
+    "description": "You should [...] ",
+    "date": "01/07/2019 19:13",
+    "type": "Alert",
+    "status": "New",
+    "notificationType": "Technical",
+    "graph": "../../assets/graphic_1.png"
+  },
+  {
+    "title": "Network traffic unusual (250 mB/s instead of 172 mB/s)",
+    "description": "Too much [...]",
+    "date": "25/06/2019 09:42",
+    "type": "Warning",
+    "status": "In Progress",
+    "notificationType": "Technical",
+    "graph": "../../assets/graphic_2.png"
+  },
+  {
+    "title": "Cash register XXX from store XXX on <Open> state since 3 days.",
+    "description": "You should call... ",
+    "date": "26/06/2019 14:19",
+    "type": "Information",
+    "status": "New",
+    "notificationType": "Buisness",
+    "graph": "../../assets/graphic_4.png"
+  }
+]

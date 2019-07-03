@@ -1,0 +1,34 @@
+[
+  {
+    "title": "Temperature",
+    "description": "mesure de temperature [...]",
+    "expectedValue": 20,
+    "measuredValue": 25,
+    "exceedance": 25,
+    "graph": "../../assets/graphic_1.png"
+  },
+  {
+    "title": "Receipts by day",
+    "description": " Description[...]",
+    "expectedValue": 750,
+    "measuredValue": 750,
+    "exceedance": 0,
+    "graph": "../../assets/graphic_3.png"
+  },
+  {
+    "title": "Receipt creation time",
+    "description": " Description[...]",
+    "expectedValue": 13,
+    "measuredValue": 10,
+    "exceedance": 23,
+    "graph": "../../assets/graphic_2.png"
+  },
+  {
+    "title": "Caisse en fonctionnement",
+    "description": " Description[...]",
+    "expectedValue": 10,
+    "measuredValue": 25,
+    "exceedance": 150,
+    "graph": "../../assets/graphic_4.png"
+  }
+]

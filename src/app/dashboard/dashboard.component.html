@@ -1,0 +1,263 @@
+<app-navbar></app-navbar>
+
+<h3 class="title font-weight-bold ">Follow Up <i class="fas fa-arrows-alt  pull-right mr-5"></i></h3>
+
+<hr class="mr-5 ml-5">
+
+<!-- Follow Up Cards-->
+
+<div id="followUpCards" class="d-flex flex-row mx-auto ">
+  <div class="row align-items-center justify-content-md-center"
+       cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+    <div class="col mb-3 drag-and-drop-box" *ngFor="let sensor of arrSensors" cdkDrag>
+
+
+      <!--     CARD -->
+      <div class="card text-white shadow mx-auto bg-info"
+           style="width: 18rem;height: 7rem"
+           [class.bg-info]="sensor.exceedance < 5"
+           [class.bg-warning]="sensor.exceedance >=5 && sensor.exceedance <=50"
+           [class.bg-danger]="sensor.exceedance >50"
+      >
+        <div class="card-body">
+          <!--          equals-->
+          <div>
+            <i class="fas fa-check pull-right fa-3x "
+               *ngIf=" sensor.measuredValue  === sensor.expectedValue "></i>
+          </div>
+
+          <!--          superior/inferior-->
+          <div>
+            <i class="fas fa-arrow-up pull-right fa-3x " id="cardIcons"
+               *ngIf=" sensor.measuredValue  > sensor.expectedValue && sensor.exceedance >=5 && sensor.exceedance <=50"></i>
+            <i class="fas fa-arrow-down pull-right fa-3x "
+               *ngIf=" sensor.measuredValue  < sensor.expectedValue && sensor.exceedance >=5 && sensor.exceedance <=50 "></i>
+          </div>
+
+          <!-- >>Superior/Inferior-->
+
+          <div>
+            <i class="fas fa-angle-double-up pull-right fa-3x "
+               *ngIf=" sensor.measuredValue  > sensor.expectedValue && sensor.exceedance >50 "></i>
+            <i class="fas fa-angle-double-down pull-right fa-3x "
+               *ngIf=" sensor.measuredValue  < sensor.expectedValue && sensor.exceedance >50"></i>
+          </div>
+
+          <!-- Cards info  -->
+          <h2
+            class="card-title font-weight-bold">{{sensor.measuredValue}}</h2>
+
+          <h5 class="card-text pull-right" *ngIf="sensor.exceedance>=5 ">{{sensor.exceedance}}%</h5>
+          <h6 class="card-subtitle mb-2 ">{{sensor.title}}</h6>
+          <p class="card-text"></p>
+
+
+        </div>
+      </div>
+
+      <!--      Graph associé à la card-->
+
+      <img class="img-fluid img-thumbnail border-0 mx-auto   " style=" display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%; position: center; max-width: 300px" [src]="sensor.graph">
+    </div>
+  </div>
+</div>
+
+
+<!-- Partie HealthCare **************************************************************************-->
+
+
+<h3 class="title font-weight-bold">Health Care <i class="fas fa-filter pull-right mr-5"></i> <i
+  class="fas fa-arrows-alt  pull-right mr-2"></i></h3>
+<hr class="mr-5 ml-5">
+
+<!--Item HealthCare-->
+
+<div *ngFor="let notif of arrHealthCare " class="ml-3 mr-3  content">
+
+  <div class="card-group mb-2 " *ngIf="notif.archived!==true">
+
+    <!-- Synapse Item -->
+    <!-- <div class="col-auto synapse-list-start-icon">
+      <img *ngIf="notif.type === 'Alert'" src="../../assets/svg/synapse-item-alert.svg" width="100%"/>
+      <img *ngIf="notif.type === 'Warning'" src="../../assets/svg/synapse-item-warning.svg" width="100%"/>
+      <img *ngIf="notif.type === 'Information'" src="../../assets/svg/synapse-item-info.svg" width="100%"/>
+    </div> -->
+
+
+    <!--  Colored card Alert + Date-->
+    <div class="card col-xl-2 col-md-4 col-lg-2 col-sm-3 rounded border-left-0 text-white mb-0 bg-danger"
+
+         [class.bg-danger]="notif.type === 'Alert'"
+         [class.bg-warning]="notif.type === 'Warning'"
+         [class.bg-info]="notif.type === 'Information'"
+         id="cardDanger">
+      <div class="card-body">
+        <h5 class="card-title font-weight-bold">{{notif.type}}</h5>
+        <p class="card-text">{{notif.date}}</p>
+      </div>
+    </div>
+
+    <!-- Card Body title + type of notification -->
+    <div class="card col-auto mb-0 ">
+      <div class="card-body">
+        <h5 class="card-title font-weight-bold">{{notif.title}}</h5>
+        <p class="card-text">{{notif.notificationType}} notification</p>
+      </div>
+    </div>
+
+
+    <div class="card col-xl-3 col-md-4 col-lg-3 col-sm-3 mr-3">
+      <div class="card-body">
+        <h5 class="card-title font-italic font-weight-bold">{{notif.status}}</h5>
+
+        <button class="btn " (click)="open(content)">
+          <i class="fas fa-search  w" [class.Alert]="notif.type === 'Alert'" [class.Warning]="notif.type === 'Warning'"
+             [class.Information]="notif.type === 'Information'"></i>
+        </button>
+
+
+        <!-- Debut Modal (PopUp) -->
+
+
+        <ng-template #content let-modal class="modal fade bd-example-modal-lg">
+
+          <!--modal header-->
+          <div class="modal-header text-white " [class.bg-info]="notif.type==='Information'"
+               [class.bg-warning]="notif.type==='Warning'" [class.bg-danger]="notif.type==='Alert'">
+
+            <h4 class="modal-title" id="modal-basic-title"> {{notif.notificationType}} {{notif.type}}</h4>
+
+            <div>
+              <button type="button" class="btn  ">
+                <i class="fas fa-list "></i>
+              </button>
+              <button type="button" class="btn" [ngbPopover]="popContent" placement="bottom">
+                <i class="fas fa-share-alt "></i>
+              </button>
+              <button type="button" class="btn " (click)="modal.close('Save click')">
+                <i class="fas fa-times "></i>
+              </button>
+            </div>
+          </div>
+
+          <!--Modal body-->
+          <div class="modal-body">
+            <div class="">
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star"></span>
+              <span class="fa fa-star"></span>
+            </div>
+            <br>
+            <h5 class="font-weight-bold">{{notif.title}} :</h5>
+
+
+            <h6>{{notif.description}} </h6>
+            <img src="{{notif.graph}}" class="col-auto">
+
+            <p class="text-info flex">{{notif.date}}</p>
+          </div>
+          <div class="modal-footer">
+            <div class="container">
+              <div class="row">
+
+                <!--modal footer (boutton)-->
+                <div class="col-8 mb-4 ">
+
+                  <button type="button" class="btn btn-outline-dark font-weight-bold"
+                          (click)="onSelectChatBot()">Posez votre
+                    question <img class="figure-img heightSet " src="../../assets/cegitBotRound.png">
+                  </button>
+
+                </div>
+
+                <div class="col-4 mb-4">
+                  <button type="button" class="btn btn-outline-dark font-weight-bold"
+                          (click)="onSelectStratus()">
+                    Ouvrir ticket <h1 class="h1 stratus">Stratus</h1>
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+
+                <div class="col-6 mb-4">
+                  <button type="button" class="btn btn-outline-dark font-weight-bold"
+                          (click)="onSelectCegidlife()">
+                    Documentation <img class="figure-img heightSet " style="height: 60%;width: 60%;"
+                                       src="../../assets/cegidlife.png">
+                  </button>
+
+                </div>
+
+                <div class="col-6 ali ">
+
+                  <button type="button" class="btn btn-outline-dark font-weight-bold "
+                          (click)="modal.close('Save click')">
+                    Consulting
+                    <img class="figure-img heightSet " style="height: 30%;width: 30%;" src="../../assets/support.png">
+                  </button>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </ng-template>
+
+        <!--Fin modal (popUp)-->
+
+        <!--Vignette d'action -->
+        <button type="button" class="btn" [class.Alert]="notif.type === 'Alert'"
+                [class.Warning]="notif.type === 'Warning'" [class.Information]="notif.type === 'Information'">
+          <i class="fas fa-list "></i>
+        </button>
+        <button type="button" class="btn" [ngbPopover]="popContent" placement="bottom"
+                [class.Alert]="notif.type === 'Alert'" [class.Warning]="notif.type === 'Warning'"
+                [class.Information]="notif.type === 'Information'">
+          <i class="fas fa-share-alt "></i>
+        </button>
+        <button type="button" class="btn" (click)="archive(notif)">
+          <i class="fas fa-times " [class.Alert]="notif.type === 'Alert'" [class.Warning]="notif.type === 'Warning'"
+             [class.Information]="notif.type === 'Information'"></i>
+        </button>
+        <ng-template #popContent>
+          <div class="popover-sharing">
+            <button type="button" class="btn" (click)="CallRequestBin()">
+              <i class="fab fa-facebook-square"></i>
+            </button>
+            <button type="button" class="btn" (click)="shareWithTwitter()">
+              <i class="fab fa-twitter-square"></i>
+            </button>
+            <!-- <button type="button" class="btn" (click)="shareWithWhatsapp()">
+              <i class="fab fa-whatsapp-square"></i>
+            </button> -->
+            <button type="button" class="btn" (click)="shareWithSMS()">
+              <i class="fas fa-sms"></i>
+            </button>
+            <button type="button" class="btn" (click)="shareWithMail()">
+              <i class="fas fa-envelope"></i>
+            </button>
+          </div>
+        </ng-template>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+<footer>
+  <div class="subfooter mt-5">
+    <div class="container">
+      <nav>
+        <p class="copyright">Tous droits réservés © Cegid 2019</p>
+      </nav>
+    </div>
+  </div>
+</footer>

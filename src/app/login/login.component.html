@@ -1,0 +1,76 @@
+<body>
+
+<br>
+
+<div class="row justify-content-md-center">
+  <div class="col-md-5 col-xl-4 col-lg-5 col-sm-12">
+    <div class="card">
+      <div class="card-body" style="text-align:center">
+
+        <IMG SRC="./assets/cloud-login.png" ALT="some text">
+
+        <h2 class="d-flex justify-content-center font-weight-bold">CegidLife</h2>
+        <br>
+        <br>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitPassword()">
+          <div class="input-group" >
+            <div class="input-group-prepend">
+            <span class="input-group-text" id="emailInputGroup">
+                <i class="far fa-envelope"></i>
+            </span>
+            </div>
+            <input type="text" class="form-control " id="validationServerMail" formControlName="mail"
+                   placeholder="Adresse mail"
+                   aria-describedby="inputGroupPrepend3" required>
+            <div class="invalid-feedback">
+              Please choose a email.
+            </div>
+
+
+          </div>
+          <br> <br>
+          <div class="input-group" *ngIf="validEmail">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroupPrepend3"><i class="fas fa-lock"></i></span>
+            </div>
+            <input type="password" class="form-control "  id="validationServerPassword"
+                   formControlName="password"
+                   placeholder="Mot de passe"
+
+                   aria-describedby="inputGroupPrepend3" required>
+            <div class="invalid-feedback">
+              please put your password.
+            </div>
+
+
+          </div>
+          <br>
+          <br>
+
+          <div class="float-right">
+            <button type="button" class="btn btn-primary " (click)="onSubmitMail()"
+                    [disabled]="!loginForm.get('mail').valid" *ngIf="!validEmail">Suivant
+            </button>
+          </div>
+
+          <div class="float-right">
+            <button type="button" class="btn btn-primary " (click)="onSubmitPassword() " *ngIf="validEmail"
+                    [disabled]="!loginForm.valid">Connexion
+            </button>
+          </div>
+        </form>
+
+      </div>
+      <br>
+      <br>
+      <p class="align-self-center">© Cegid 2019</p>
+    </div>
+
+
+  </div>
+</div>
+
+<!--{{loginForm.value | json}}-->
+<!--email valid? {{validEmail}}-->
+</body>
